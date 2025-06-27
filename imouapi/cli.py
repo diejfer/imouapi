@@ -305,6 +305,22 @@ async def async_run_command(command: str, api_client: ImouAPIClient, args: list[
             data = await api_client.async_api_unbindLive(live_token)
             print(json.dumps(data, indent=4))
 
+        elif command == "api_getCollection":
+            device_id = args[0]
+            data = await api_client.async_api_getCollection(device_id)
+            print(json.dumps(data, indent=4))
+
+        elif command == "api_turnCollection":
+            device_id = args[0]
+            name = args[1]
+            data = await api_client.async_api_turnCollection(device_id, name)
+            print(json.dumps(data, indent=4))
+
+        elif command == "api_deviceOnline":
+            device_id = args[0]
+            data = await api_client.async_api_deviceOnline(device_id)
+            print(json.dumps(data, indent=4))
+
         elif command == "api_getDevicePowerInfo":
             device_id = args[0]
             data = await api_client.async_api_getDevicePowerInfo(device_id)
@@ -613,6 +629,24 @@ class ImouCli:
             else:
                 print("ERROR: provide live_token")
 
+        elif self.command == "api_deviceOnline":
+            if len(self.args) == 1:
+                asyncio.run(async_run_command(self.command, api_client, self.args))
+            else:
+                print("ERROR: provide device_id")
+
+        elif self.command == "api_getCollection":
+            if len(self.args) == 1:
+                asyncio.run(async_run_command(self.command, api_client, self.args))
+            else:
+                print("ERROR: provide device_id")
+
+        elif self.command == "api_turnCollection":
+            if len(self.args) == 2:
+                asyncio.run(async_run_command(self.command, api_client, self.args))
+            else:
+                print("ERROR: provide device_id and name")
+
         elif self.command == "api_getDevicePowerInfo":
             if len(self.args) == 1:
                 asyncio.run(async_run_command(self.command, api_client, self.args))
@@ -675,6 +709,10 @@ class ImouCli:
             "  api_deviceOpenDetailList <device_id>                                Return the details of the requested devices (open) by calling directly the API"  # noqa: E501
         )
         print(
+            "  api_deviceOnline <device_id>"
+            "   Get online status of a device by calling directly the API"  # noqa: E501
+        )
+        print(
             "  api_listDeviceAbility <device_id>                                   Ability of a device by calling directly the API"  # noqa: E501
         )
         print(
@@ -729,6 +767,14 @@ class ImouCli:
         )
         print(
             "  api_unbindLive <live_token>                                         Delete the live stream for the given live token"  # noqa: E501
+        )
+        print(
+            "  api_getCollection <device_id>"
+            "   Get collection points information by calling directly the API"  # noqa: E501
+        )
+        print(
+            "  api_turnCollection <device_id> <name>"
+            "   Move camera to the specified collection point"  # noqa: E501
         )
         print(
             "  api_getDevicePowerInfo <device_id>                                  Get battery power information"  # noqa: E501

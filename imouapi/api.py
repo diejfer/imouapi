@@ -610,6 +610,30 @@ class ImouAPIClient:
         # call the api
         return await self._async_call_api(api, payload)
 
+    async def async_api_getCollection(self, device_id: str) -> dict:  # pylint: disable=invalid-name
+        """Get collection point information \
+            (https://open.imoulife.com/book/http/device/config/collection/getCollection.html)."""
+        # define the api endpoint
+        api = "getCollection"
+        # prepare the payload
+        payload = {
+            "deviceId": device_id,
+            "channelId": "0",
+        }
+        # call the api
+        return await self._async_call_api(api, payload)
+
+    async def async_api_turnCollection(self, device_id: str, name: str) -> dict:  # pylint: disable=invalid-name
+        """Turn to the specified collection point
+            (https://open.imoulife.com/book/http/device/config/collection/turnCollection.html)."""
+        api = "turnCollection"
+        payload = {
+            "deviceId": device_id,
+            "channelId": "0",
+            "name": name,
+        }
+        return await self._async_call_api(api, payload)
+
     async def async_api_getDevicePowerInfo(self, device_id: str) -> dict:  # pylint: disable=invalid-name
         """Obtain battery power information. \
             (https://open.imoulife.com/book/en/http/door/getDevicePowerInfo.html)."""
