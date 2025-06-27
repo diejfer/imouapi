@@ -317,6 +317,24 @@ class TestApiClient:
             self.loop.run_until_complete(self.api_client.async_api_unbindLive("123uq7adshgkjashdkl"))
             assert True is True
 
+    def test_getCollection_ok(self):  # pylint: disable=invalid-name
+        """Test getCollection: ok."""
+        with aioresponses() as mocked:
+            self.config_mock(mocked, "accessToken", "accessToken_ok")
+            self.config_mock(mocked, "getCollection", "getCollection_ok")
+            data = self.loop.run_until_complete(self.api_client.async_api_getCollection("device_id"))
+            assert "collections" in data
+
+    def test_turnCollection_ok(self):  # pylint: disable=invalid-name
+        """Test turnCollection: ok."""
+        with aioresponses() as mocked:
+            self.config_mock(mocked, "accessToken", "accessToken_ok")
+            self.config_mock(mocked, "turnCollection", "turnCollection_ok")
+            data = self.loop.run_until_complete(
+                self.api_client.async_api_turnCollection("device_id", "PointA")
+            )
+            assert data["result"]["code"] == "0"
+
     def test_getDevicePowerInfo_ok(self):  # pylint: disable=invalid-name
         """Test getDevicePowerInfo: ok."""
         with aioresponses() as mocked:

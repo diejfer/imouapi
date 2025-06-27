@@ -601,6 +601,25 @@ MOCK_RESPONSES = {
             "msg": "The operation was successful",
         },
     },
+    "getCollection_ok": {
+        "result": {
+            "msg": "The operation was successful.",
+            "code": "0",
+            "data": {
+                "collections": [
+                    {"id": "1", "name": "PointA", "h": "0.1", "v": "0.1", "z": "1.0"}
+                ]
+            },
+        },
+        "id": "c1234567-1234-1234-1234-c1234567890a",
+    },
+    "turnCollection_ok": {
+        "result": {
+            "msg": "The operation was successful.",
+            "code": "0",
+        },
+        "id": "d1234567-1234-1234-1234-c1234567890b",
+    },
     "getDevicePowerInfo_ok": {
         "id": "b8f45dbb-79ad-4a7e-8b24-7eb618c5191f",
         "result": {
