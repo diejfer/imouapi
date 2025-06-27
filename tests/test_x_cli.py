@@ -44,6 +44,8 @@ class TestCli:
         self.config_mock(mocked, "getMessageCallback", "getMessageCallback_ok", repeat=True)
         self.config_mock(mocked, "deviceSdcardStatus", "deviceSdcardStatus_ok", repeat=True)
         self.config_mock(mocked, "restartDevice", "restartDevice_ok", repeat=True)
+        self.config_mock(mocked, "getCollection", "getCollection_ok", repeat=True)
+        self.config_mock(mocked, "turnCollection", "turnCollection_ok", repeat=True)
 
     def test_discover_ok(self, capsys):
         """Test discover: ok."""
@@ -708,3 +710,61 @@ class TestCli:
             self.cli.run_command()
             captured = capsys.readouterr()
             assert "{}" in captured.out
+
+    def test_api_deviceOnline(self, capsys):  # pylint: disable=invalid-name
+        """Test api_deviceOnline: ok."""
+        with aioresponses() as mocked:
+            self.config_mock(mocked, "accessToken", "accessToken_ok")
+            self.config_mock(mocked, "deviceOnline", "deviceOnline_ok")
+            self.cli.argv = [
+                "cli",
+                "--app-id",
+                "app_id",
+                "--app-secret",
+                "app_secret",
+                "api_deviceOnline",
+                "device_id",
+            ]
+            self.cli.parse_command_line()
+            self.cli.run_command()
+            captured = capsys.readouterr()
+            assert "onLine" in captured.out
+
+    def test_api_getCollection(self, capsys):  # pylint: disable=invalid-name
+        """Test api_getCollection: ok."""
+        with aioresponses() as mocked:
+            self.config_mock(mocked, "accessToken", "accessToken_ok")
+            self.config_mock(mocked, "getCollection", "getCollection_ok")
+            self.cli.argv = [
+                "cli",
+                "--app-id",
+                "app_id",
+                "--app-secret",
+                "app_secret",
+                "api_getCollection",
+                "device_id",
+            ]
+            self.cli.parse_command_line()
+            self.cli.run_command()
+            captured = capsys.readouterr()
+            assert "collections" in captured.out
+
+    def test_api_turnCollection(self, capsys):  # pylint: disable=invalid-name
+        """Test api_turnCollection: ok."""
+        with aioresponses() as mocked:
+            self.config_mock(mocked, "accessToken", "accessToken_ok")
+            self.config_mock(mocked, "turnCollection", "turnCollection_ok")
+            self.cli.argv = [
+                "cli",
+                "--app-id",
+                "app_id",
+                "--app-secret",
+                "app_secret",
+                "api_turnCollection",
+                "device_id",
+                "PointA",
+            ]
+            self.cli.parse_command_line()
+            self.cli.run_command()
+            captured = capsys.readouterr()
+            assert "code" in captured.out
